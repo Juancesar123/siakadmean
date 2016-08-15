@@ -1,0 +1,19 @@
+{
+  "name": "siakad",
+  "version": "1.0.0",
+  "description": "ini adalah project membuat siakad dengan mean",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "juancesar123"
+  },
+  "keywords": [
+    "siakad",
+    "MEAN"
+  ],
+  "author": "juan cesar andrianto",
+  "license": "ISC"
+}

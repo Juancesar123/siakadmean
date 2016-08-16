@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="public/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="public/plugins/datatables/dataTables.bootstrap.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="public/dist/css/skins/_all-skins.min.css">
@@ -28,9 +29,17 @@
     <!-- Daterange picker -->
     <link rel="stylesheet" href="public/plugins/daterangepicker/daterangepicker-bs3.css">
     <!-- bootstrap wysihtml5 - text editor -->
+
     <link rel="stylesheet" href="public/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-    <script src="public/js/angular.min.js"></script>
+
+    <script src="public/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+     <script src="public/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+      <script src="public/js/angular.min.js"></script>
     <script src="public/js/angular-route.min.js"></script>
+    <script src="public/js/checklist-model.js"></script>
+    <script src="public/js/angular-datatables.min.js"></script>
+    <script src="public/js/angular-resource.min.js"></script>
     <script src = "public/js/main.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -321,10 +330,10 @@
             <li class="header">MAIN NAVIGATION</li>
             <li class="active treeview">
               <a href="#">
-                <i class="fa fa-databse"></i> <span>Master Data</span> <i class="fa fa-angle-left pull-right"></i>
+                <i class="fa fa-database"></i> <span>Master Data</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Data guru</a></li>
+                <li class="active"><a href="#/dataguru"><i class="fa fa-circle-o"></i> Data guru</a></li>
                 <li><a href="index2.html"><i class="fa fa-circle-o"></i> Data Murid</a></li>
                 <li><a href="index2.html"><i class="fa fa-circle-o"></i> Data Kelas</a></li>
               </ul>
@@ -337,17 +346,7 @@
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <section class="content-header">
-          <h1>
-            Dashboard
-            <small>Control panel</small>
-          </h1>
-          <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Dashboard</li>
-          </ol>
-        </section>
-
+        
         <!-- Main content -->
         <section class="content">
           <!-- Small boxes (Stat box) -->
@@ -548,7 +547,6 @@
     </div><!-- ./wrapper -->
 
     <!-- jQuery 2.1.4 -->
-    <script src="public/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->

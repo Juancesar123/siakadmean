@@ -1,0 +1,118 @@
+<html>
+<head>
+</head>
+<body>
+  <section class="content-header">
+    <h1>
+      Data Guru
+      <small>lihat Data Guru</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li class = "active"><a href="#"><i class="fa fa-database"></i> Data Guru</a></li>
+    </ol>
+  </section>
+  <div class="box-header">
+    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Tambah Guru</button>
+    <button class="btn btn-danger" ng-click="hapus()"><i class="fa fa-trash"></i> Hapus Guru</button>
+  </div>
+  <div class ="box-body">
+    <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Input data guru</h4>
+        </div>
+        <div class="modal-body">
+        <div class="form-group">
+        <label> Nama Gedung</label>
+        <select class="form-control" ng-model="nama">
+          <option ng-repeat="item in gedung" value="{{item.nama}}">{{item.nama}}</option>
+        </select>
+      </div>
+    <div class="form-group">
+    <label> Harga </label>
+    <input type="text" class="form-control" ng-model="hargaku">
+  </div>
+  <div class="form-group">
+  <label>Pembayaran </label>
+  <select  class="form-control" ng-model="pembayaran">
+    <option value="per bulan">Per bulan</option>
+    <option value="per 3 bulan">Per 3 bulan</option>
+    <option value="per 6 bulan">Per 6 bulan</option>
+    <option value="per tahun">Per tahun</option>
+  </select>
+</div>
+      </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" ng-click="tambah()"><i class="fa fa-send"></i> Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div id="myModal1" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Ubah Data Harga</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+      <label> Nama Gedung</label>
+      <select class="form-control" ng-model="nama">
+        <option ng-repeat="item in gedung" value="{{item.nama}}">{{item.nama}}</option>
+      </select>
+    </div>
+  <div class="form-group">
+  <label> Harga </label>
+  <input type="text" class="form-control" ng-model="hargaku">
+  <input type="hidden" class="form-control" ng-model="id">
+</div>
+<div class="form-group">
+<label>Pembayaran </label>
+<select  class="form-control" ng-model="pembayaran">
+  <option value="per bulan">Per bulan</option>
+  <option value="per 3 bulan">Per 3 bulan</option>
+  <option value="per 6 bulan">Per 6 bulan</option>
+  <option value="per tahun">Per tahun</option>
+</select>
+</div>
+  </div>
+    <div class="modal-footer">
+      <button class="btn btn-success" ng-click="actionedit()"><i class="fa fa-send"></i> Submit</button>
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+
+  </div>
+  </div>
+  <table datatable="ng" dt-columns="dtColumns"dt-options="dtOptions"class="table table-bordered table-striped">
+  <thead>
+  <th><input type="checkbox" ng-click="checkall()"></th>
+  <th>Nama Gedung</th>
+  <th>Nama User</th>
+  <th>pembayaran sewa</th>
+  <th>status </th>
+  <th>Action</th>
+  </thead>
+  <tbody>
+  <tr ng-repeat="item in harga">
+  <td> <input type="checkbox"  checklist-model="user.hapusharga" checklist-value="item._id" role></td>
+  <td>{{item.namagedung}}</td>
+  <td>{{item.pembayaran}}</td>
+  <td>{{item.harga}}</td>
+  <td><button class="btn btn-success" data-toggle="modal" ng-click="edit(item)"data-target="#myModal1"><i class="fa fa-edit"></i></button></td>
+  </tr>
+  </tbody>
+  </table>
+
+  </div>
+</body>
+</html>

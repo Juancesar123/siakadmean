@@ -10,6 +10,9 @@ var mainApp = angular.module("mainApp", ['ngRoute','datatables','checklist-model
 }) .when('/datakelas', {
     templateUrl:"datakelas",
     controller :"datakelas"
+}).when('/user', {
+    templateUrl:"user",
+    controller :"user"
 })
  });
  mainApp.factory('socket', ['$rootScope', function($rootScope) {
@@ -67,6 +70,58 @@ mainApp.directive('fileModel', ['$parse', function ($parse) {
          }
 
          }]);
+         mainApp.service('FotoUserupload', ['$http', function ($http,$scope) {
+         this.uploadFileToUrl = function(nama,email,password,level,foto,uploadUrl){
+             var fd = new FormData();
+             fd.append('nama', nama);
+             fd.append('email', email);
+             fd.append('password', password);
+             fd.append('level', level);
+             fd.append('foto', foto);
+             $http.post(uploadUrl, fd, {
+                 transformRequest: angular.identity,
+                 headers: {'Content-Type': undefined}
+             })
+             .success(function(data){
+           alert("data sukses diupload");
+           $http.get("ambil_datauser").success(function(data){
+         datauser = data;
+           });
+             })
+             .error(function(){
+             alert("data gagal di input");
+             });
+
+         }
+
+         }]);
+         mainApp.service('fotouseredit', ['$http', function ($http,$scope) {
+         this.uploadFileToUrl = function(id,nama,email,password,level,foto,uploadUrl){
+             var fd = new FormData();
+             fd.append('id', id);
+             fd.append('nama', nama);
+             fd.append('email', email);
+             fd.append('password', password);
+             fd.append('level', level);
+             fd.append('foto', foto);
+             $http.post(uploadUrl, fd, {
+                 transformRequest: angular.identity,
+                 headers: {'Content-Type': undefined}
+             })
+             .success(function(data){
+           alert("data sukses diupload");
+           $http.get("ambil_datauser").success(function(data){
+         datauser = data;
+           });
+             })
+             .error(function(){
+             alert("data gagal di input");
+             });
+
+         }
+
+         }]);
+
          mainApp.service('FotomuridUploadEdit', ['$http', function ($http,$scope) {
          this.uploadFileToUrl = function(id,nama,alamat,tempat,tanggal,kelas,notlp,status,foto,uploadUrl){
              var fd = new FormData();
@@ -84,7 +139,7 @@ mainApp.directive('fileModel', ['$parse', function ($parse) {
                  headers: {'Content-Type': undefined}
              })
              .success(function(data){
-           alert("data sukses diupload");
+           alert("data sukses diubah");
            $http.get("ambil_datamurid").success(function(data){
          datamurid = data;
            });
@@ -299,12 +354,70 @@ mainApp.controller("datakelas",function($scope,$http,DTOptionsBuilder,DTColumnBu
       };
       $scope.user={
         hapuskelas:[]
-      }
+      };
       $scope.hapus=function(){
         var id = $scope.user;
         $http.post("hapus_kelas",{id:id}).success(function(){
           alert("data sukses di hapus");
           $scope.getdata();
         })
-      }
+      };
     })
+    mainApp.controller("user",function(fotouseredit,FotoUserupload,$http,$scope,DTOptionsBuilder,DTColumnBuilder){
+      $scope.dtOptions = DTOptionsBuilder.newOptions()
+              .withDisplayLength(5)
+              .withOption('bLengthChange', false)
+              .withOption('autoWidth', false)
+              .withOption('scrollX', false);
+              $scope.getdata = function(){
+              $http.get("ambil_datauser").success(function(data){
+                $scope.datauser= data;
+              });
+          }
+          $scope.getdata();
+          $scope.tambah=function(){
+            var nama = $scope.nama;
+            var email = $scope.email;
+            var password = $scope.password;
+            var level = $scope.level
+            var foto = $scope.foto;
+            var datauser = $scope.datauser;
+            var uploadUrl = "tambah_user";
+              FotoUserupload.uploadFileToUrl(nama,email,password,level,foto,uploadUrl);
+          }
+          $scope.edit=function(item){
+            $scope.nama = item.nama;
+            $scope.email = item.email;
+            $scope.password = item.password;
+            $scope.level = item.level;
+            $scope.id = item._id;
+          }
+          $scope.actionedit=function(){
+            var nama = $scope.nama;
+            var email = $scope.email;
+            var password = $scope.password;
+            var level = $scope.level
+            var foto = $scope.foto;
+            var datauser = $scope.datauser;
+            var id = $scope.id;
+            var uploadUrl = "ubah_datauser";
+            if(foto==undefined){
+              $http.post("ubah_datausernoimage",{nama:nama,email:email,password:password,level:level,id:id}).success(function(){
+                alert("data sukses diubah");
+                $scope.getdata()
+              })
+            }else{
+              fotouseredit.uploadFileToUrl(id,nama,email,password,level,foto,uploadUrl);
+            }
+          }
+          $scope.user={
+            hapususer:[]
+          }
+          $scope.hapus=function(){
+            var id = $scope.user;
+            $http.post("hapus_user",{id:id}).success(function(){
+              alert("data sukses dihapus");
+              $scope.getdata();
+            });
+          };
+        })

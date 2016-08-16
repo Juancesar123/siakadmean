@@ -267,13 +267,13 @@ html(ng-app='mainApp')
           // sidebar menu: : style can be found in sidebar.less
           ul.sidebar-menu
             li.header MAIN NAVIGATION
-            li.active.treeview
+            li.treeview
               a(href='#')
                 i.fa.fa-database
                 span Master Data
                 i.fa.fa-angle-left.pull-right
               ul.treeview-menu
-                li.active
+                li
                   a(href='#/dataguru')
                     i.fa.fa-circle-o
                     |  Data guru
@@ -285,6 +285,24 @@ html(ng-app='mainApp')
                   a(href='#/datakelas')
                     i.fa.fa-circle-o
                     |  Data Kelas
+                li
+                  a(href='#/datamatapelajaran')
+                    i.fa.fa-circle-o
+                    |  Data Mata Pelajaran
+            li.treeview
+              a(href='#')
+                i.fa.fa-users
+                span Management User
+                i.fa.fa-angle-left.pull-right
+              ul.treeview-menu
+                li
+                  a(href='#/user')
+                    i.fa.fa-circle-o
+                    |  User
+            li
+              a(href='#/jadwalpel')
+                i.fa.fa-calendar
+                |  Jadwal Pelajaran
         // /.sidebar
       // Content Wrapper. Contains page content
       .content-wrapper

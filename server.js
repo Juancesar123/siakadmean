@@ -13,8 +13,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
+app.get("/",function(req,res){
+  res.render("index.jade")
+});
 app.get("/dataguru",function(req,res){
-  res.render("dataguru.ejs");
+  res.render("dataguru.jade");
 });
 app.get("/ambil_dataguru",function(req,res){
   db.dataguru.find(function(err,docs){

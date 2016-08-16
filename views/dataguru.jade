@@ -1,0 +1,111 @@
+html
+  head
+  body
+    section.content-header
+      h1
+        | Data Guru
+        small lihat Data Guru
+      ol.breadcrumb
+        li.active
+          a(href='#')
+            i.fa.fa-database
+            |  Data Guru
+    .box-header
+      button.btn.btn-primary(data-toggle='modal', data-target='#myModal')
+        i.fa.fa-plus
+        |  Tambah Guru
+      button.btn.btn-danger(ng-click='hapus()')
+        i.fa.fa-trash
+        |  Hapus Guru
+      button.btn.btn-danger(ng-click='nonaktif()')
+        i.fa.fa-trash
+        |  Nonaktifkan guru
+    .box-body
+      #myModal.modal.fade(role='dialog')
+        .modal-dialog
+          // Modal content
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Input data guru
+            .modal-body
+              .form-group
+                label  Nama Guru
+                input.form-control(type='text', ng-model='nama')
+              .form-group
+                label  Tempat Lahir
+                input.form-control(type='text', ng-model='tempat')
+              .form-group
+                label Tanggal Lahir
+                input.form-control(type='text', ng-model='tanggal')
+              .form-group
+                label Alamat
+                textarea.form-control(ng-model='alamat')
+              .form-group
+                label Jabatan
+                input.form-control(type='text', ng-model='jabatan')
+              .form-group
+                label Nomor Telpon
+                input.form-control(type='text', ng-model='notlp')
+            .modal-footer
+              button.btn.btn-primary(ng-click='tambah()')
+                i.fa.fa-send
+                |  Submit
+              button.btn.btn-default(type='button', data-dismiss='modal') Close
+      #myModal1.modal.fade(role='dialog')
+        .modal-dialog
+          // Modal content
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Ubah Data Guru
+            .modal-body
+              .form-group
+                label  Nama Guru
+                input.form-control(type='text', ng-model='nama')
+              .form-group
+                label  Tempat Lahir
+                input.form-control(type='text', ng-model='tempat')
+              .form-group
+                label Tanggal Lahir
+                input.form-control(type='text', ng-model='tanggal')
+              .form-group
+                label Alamat
+                textarea.form-control(ng-model='alamat')
+              .form-group
+                label Jabatan
+                input.form-control(type='text', ng-model='jabatan')
+              .form-group
+                label Nomor Telpon
+                input.form-control(type='text', ng-model='notlp')
+            .modal-footer
+              button.btn.btn-success(ng-click='actionedit()')
+                i.fa.fa-send
+                |  Submit
+              button.btn.btn-default(type='button', data-dismiss='modal') Close
+      table.table.table-bordered.table-striped(datatable='ng', dt-columns='dtColumns', dt-options='dtOptions')
+        thead
+          th
+            input(type='checkbox', ng-click='checkall()')
+          th Nama
+          th Tempat Lahir
+          th Tanggal Lahir
+          th alamat
+          th jabatan
+          th Nomor Telpon
+          th Status
+          th Action
+        tbody
+          tr(ng-repeat='item in dataguru')
+            td
+              input(type='checkbox', checklist-model='user.hapusguru', checklist-value='item._id', role='')
+            td {{item.nama}}
+            td {{item.tempat}}
+            td {{item.tanggal}}
+            td {{item.alamat}}
+            td {{item.jabatan}}
+            td {{item.notlp}}
+            td {{item.status}}
+            td
+              button.btn.btn-success(data-toggle='modal', ng-click='edit(item)', data-target='#myModal1')
+                i.fa.fa-edit

@@ -6,4 +6,5 @@ ada beberapa fitur di sistem ini yaitu:
 - data guru
 - data murid
 - data kelas
-- realtime jumlah guru yang
+- realtime jumlah guru yang aktif
+- reealtime absensi;

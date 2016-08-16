@@ -193,6 +193,12 @@ mainApp.controller("datamurid",function(FotomuridUploadEdit,FotomuridUpload,$sco
         $scope.status = item.status;
         $scope.id = item._id;
       }
+      $scope.getkelas=function(){
+        $http.get("ambil_kelas").success(function(){
+          $scope.kelas = data;
+        })
+      };
+      $scope.getkelas();
       $scope.actionedit=function(){
         var nama = $scope.nama;
         var alamat = $scope.alamat;
@@ -207,5 +213,14 @@ mainApp.controller("datamurid",function(FotomuridUploadEdit,FotomuridUpload,$sco
         var uploadUrl = "ubah_datamurid";
         FotomuridUploadEdit.uploadFileToUrl(id,nama,alamat,tempat,tanggal,kelas,notlp,status,foto,uploadUrl);
       }
-
+      $scope.user={
+        hapusmurid:[]
+      };
+      $scope.hapus=function(){
+        var id =$scope.user;
+        $http.post("hapus_murid",{id:id}).success(function(){
+          alert("data sukses dihapus");
+          $scope.getdata();
+        })
+      }
 })

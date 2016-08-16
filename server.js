@@ -3,6 +3,7 @@ var app = express();
 var http = require('http').Server(app);
 var bodyParser=require("body-parser");
 var mongojs = require("mongojs");
+var fs= require("fs");
 var db = mongojs("siakad",["dataguru","datamurid"]);
 var multer = require("multer");
 app.set('view engine', 'jade');
@@ -128,5 +129,14 @@ app.post("/ubah_datamurid",function(request,response){
   response.end('Your File Uploaded');
   console.log('Photo Uploaded');
 });
+});
+app.post("/hapus_murid",function(req,res){
+  var id = req.body.id.hapusmurid;
+  console.log(id)
+  for(var i = 0;i < id.length;i++){
+    fs.unlink(id[i].foto);
+    db.datamurid.remove( {_id: mongojs.ObjectId(id[i]._id)},1);
+  }
+  res.json();
 });
 http.listen(3000);

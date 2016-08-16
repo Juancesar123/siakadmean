@@ -4,7 +4,10 @@ var mainApp = angular.module("mainApp", ['ngRoute','datatables','checklist-model
       .when('/dataguru', {
         templateUrl:"dataguru",
 			  controller :"dataguru"
-	});
+	})  .when('/datamurid', {
+      templateUrl:"datamurid",
+      controller :"datamurid"
+})
  });
  mainApp.factory('socket', ['$rootScope', function($rootScope) {
    var socket = io.connect();
@@ -33,7 +36,63 @@ mainApp.directive('fileModel', ['$parse', function ($parse) {
                }
             };
          }]);
+         mainApp.service('FotomuridUpload', ['$http', function ($http,$scope) {
+         this.uploadFileToUrl = function(nama,alamat,tempat,tanggal,kelas,notlp,status,foto,uploadUrl){
+             var fd = new FormData();
+             fd.append('nama', nama);
+             fd.append('alamat', alamat);
+             fd.append('tempat', tempat);
+             fd.append('tanggal', tanggal);
+             fd.append('kelas',kelas)
+             fd.append('notlp', notlp);
+             fd.append('status', status);
+             fd.append('foto', foto);
+             $http.post(uploadUrl, fd, {
+                 transformRequest: angular.identity,
+                 headers: {'Content-Type': undefined}
+             })
+             .success(function(data){
+           alert("data sukses diupload");
+           $http.get("ambil_datamurid").success(function(data){
+         datamurid = data;
+           });
+             })
+             .error(function(){
+             alert("data gagal di input");
+             });
 
+         }
+
+         }]);
+         mainApp.service('FotomuridUploadEdit', ['$http', function ($http,$scope) {
+         this.uploadFileToUrl = function(id,nama,alamat,tempat,tanggal,kelas,notlp,status,foto,uploadUrl){
+             var fd = new FormData();
+             fd.append('id', id);
+             fd.append('nama', nama);
+             fd.append('alamat', alamat);
+             fd.append('tempat', tempat);
+             fd.append('tanggal', tanggal);
+             fd.append('kelas',kelas)
+             fd.append('notlp', notlp);
+             fd.append('status', status);
+             fd.append('foto', foto);
+             $http.post(uploadUrl, fd, {
+                 transformRequest: angular.identity,
+                 headers: {'Content-Type': undefined}
+             })
+             .success(function(data){
+           alert("data sukses diupload");
+           $http.get("ambil_datamurid").success(function(data){
+         datamurid = data;
+           });
+             })
+             .error(function(){
+             alert("data gagal di input");
+             });
+
+         }
+
+         }]);
 mainApp.controller("dataguru",function($http,$scope,DTOptionsBuilder,DTColumnBuilder){
   $scope.dtOptions = DTOptionsBuilder.newOptions()
           .withDisplayLength(5)
@@ -98,4 +157,55 @@ mainApp.controller("dataguru",function($http,$scope,DTOptionsBuilder,DTColumnBui
           $scope.getdata();
         })
       }
+});
+mainApp.controller("datamurid",function(FotomuridUploadEdit,FotomuridUpload,$scope,$http,DTOptionsBuilder,DTColumnBuilder){
+  $scope.dtOptions = DTOptionsBuilder.newOptions()
+          .withDisplayLength(5)
+          .withOption('bLengthChange', false)
+          .withOption('autoWidth', false)
+          .withOption('scrollX', false);
+          $scope.getdata = function(){
+          $http.get("ambil_datamurid").success(function(data){
+            $scope.datamurid= data;
+          });
+      }
+      $scope.getdata();
+      $scope.tambah=function(){
+        var nama = $scope.nama;
+        var alamat = $scope.alamat;
+        var tempat = $scope.tempat;
+        var tanggal = $scope.tanggal;
+        var kelas = $scope.kelasku;
+        var foto = $scope.foto;
+        var datamurid = $scope.datamurid;
+        var notlp = $scope.notlp;
+        var status = "aktif";
+        var uploadUrl = "tambah_murid";
+        FotomuridUpload.uploadFileToUrl(nama,alamat,tempat,tanggal,kelas,notlp,status,foto,uploadUrl);
+      }
+      $scope.edit=function(item){
+        $scope.nama = item.nama;
+        $scope.alamat = item.alamat;
+        $scope.tempat = item.tempat;
+        $scope.tanggal = item.tanggal;
+        $scope.kelasku = item.kelas;
+        $scope.foto = item.foto;
+        $scope.status = item.status;
+        $scope.id = item._id;
+      }
+      $scope.actionedit=function(){
+        var nama = $scope.nama;
+        var alamat = $scope.alamat;
+        var tempat = $scope.tempat;
+        var tanggal = $scope.tanggal;
+        var kelas = $scope.kelasku;
+        var foto = $scope.foto;
+        var datamurid = $scope.datamurid;
+        var id = $scope.id;
+        var notlp = $scope.notlp;
+        var status = "aktif";
+        var uploadUrl = "ubah_datamurid";
+        FotomuridUploadEdit.uploadFileToUrl(id,nama,alamat,tempat,tanggal,kelas,notlp,status,foto,uploadUrl);
+      }
+
 })

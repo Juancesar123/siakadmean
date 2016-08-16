@@ -7,4 +7,8 @@ ada beberapa fitur di sistem ini yaitu:
 - data murid
 - data kelas
 - realtime jumlah guru yang aktif
-- reealtime absensi;
+- realtime absensi;
+- informasi dikirim email;
+hal yang perlu disapkan adalah:
+- DBMS Mongodb
+- node js

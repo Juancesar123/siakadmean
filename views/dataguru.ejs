@@ -14,6 +14,7 @@
   <div class="box-header">
     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Tambah Guru</button>
     <button class="btn btn-danger" ng-click="hapus()"><i class="fa fa-trash"></i> Hapus Guru</button>
+    <button class="btn btn-danger" ng-click="nonaktif()"><i class="fa fa-trash"></i> Nonaktifkan guru</button>
   </div>
   <div class ="box-body">
     <div id="myModal" class="modal fade" role="dialog">
@@ -27,23 +28,28 @@
         </div>
         <div class="modal-body">
         <div class="form-group">
-        <label> Nama Gedung</label>
-        <select class="form-control" ng-model="nama">
-          <option ng-repeat="item in gedung" value="{{item.nama}}">{{item.nama}}</option>
-        </select>
-      </div>
+        <label> Nama Guru</label>
+        <input type="text" class="form-control" ng-model="nama">
+        </div>
     <div class="form-group">
-    <label> Harga </label>
-    <input type="text" class="form-control" ng-model="hargaku">
+    <label> Tempat Lahir</label>
+    <input type="text" class="form-control" ng-model="tempat">
   </div>
   <div class="form-group">
-  <label>Pembayaran </label>
-  <select  class="form-control" ng-model="pembayaran">
-    <option value="per bulan">Per bulan</option>
-    <option value="per 3 bulan">Per 3 bulan</option>
-    <option value="per 6 bulan">Per 6 bulan</option>
-    <option value="per tahun">Per tahun</option>
-  </select>
+  <label>Tanggal Lahir </label>
+<input type="text" class="form-control" ng-model="tanggal">
+</div>
+<div class="form-group">
+<label>Alamat</label>
+<textarea class="form-control" ng-model="alamat"></textarea>
+</div>
+<div class="form-group">
+<label>Jabatan </label>
+<input type="text" class="form-control" ng-model="jabatan">
+</div>
+<div class="form-group">
+<label>Nomor Telpon </label>
+<input type="text" class="form-control" ng-model="notlp">
 </div>
       </div>
         <div class="modal-footer">
@@ -61,28 +67,32 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal">&times;</button>
-      <h4 class="modal-title">Ubah Data Harga</h4>
+      <h4 class="modal-title">Ubah Data Guru</h4>
     </div>
     <div class="modal-body">
       <div class="form-group">
-      <label> Nama Gedung</label>
-      <select class="form-control" ng-model="nama">
-        <option ng-repeat="item in gedung" value="{{item.nama}}">{{item.nama}}</option>
-      </select>
-    </div>
+      <label> Nama Guru</label>
+      <input type="text" class="form-control" ng-model="nama">
+      </div>
   <div class="form-group">
-  <label> Harga </label>
-  <input type="text" class="form-control" ng-model="hargaku">
-  <input type="hidden" class="form-control" ng-model="id">
+  <label> Tempat Lahir</label>
+  <input type="text" class="form-control" ng-model="tempat">
 </div>
 <div class="form-group">
-<label>Pembayaran </label>
-<select  class="form-control" ng-model="pembayaran">
-  <option value="per bulan">Per bulan</option>
-  <option value="per 3 bulan">Per 3 bulan</option>
-  <option value="per 6 bulan">Per 6 bulan</option>
-  <option value="per tahun">Per tahun</option>
-</select>
+<label>Tanggal Lahir </label>
+<input type="text" class="form-control" ng-model="tanggal">
+</div>
+<div class="form-group">
+<label>Alamat</label>
+<textarea class="form-control" ng-model="alamat"></textarea>
+</div>
+<div class="form-group">
+<label>Jabatan </label>
+<input type="text" class="form-control" ng-model="jabatan">
+</div>
+<div class="form-group">
+<label>Nomor Telpon </label>
+<input type="text" class="form-control" ng-model="notlp">
 </div>
   </div>
     <div class="modal-footer">
@@ -96,18 +106,25 @@
   <table datatable="ng" dt-columns="dtColumns"dt-options="dtOptions"class="table table-bordered table-striped">
   <thead>
   <th><input type="checkbox" ng-click="checkall()"></th>
-  <th>Nama Gedung</th>
-  <th>Nama User</th>
-  <th>pembayaran sewa</th>
-  <th>status </th>
+  <th>Nama</th>
+  <th>Tempat Lahir</th>
+  <th>Tanggal Lahir</th>
+  <th>alamat</th>
+  <th>jabatan</th>
+  <th>Nomor Telpon</th>
+  <th>Status</th>
   <th>Action</th>
   </thead>
   <tbody>
-  <tr ng-repeat="item in harga">
-  <td> <input type="checkbox"  checklist-model="user.hapusharga" checklist-value="item._id" role></td>
-  <td>{{item.namagedung}}</td>
-  <td>{{item.pembayaran}}</td>
-  <td>{{item.harga}}</td>
+  <tr ng-repeat="item in dataguru">
+  <td> <input type="checkbox"  checklist-model="user.hapusguru" checklist-value="item._id" role></td>
+  <td>{{item.nama}}</td>
+  <td>{{item.tempat}}</td>
+  <td>{{item.tanggal}}</td>
+  <td>{{item.alamat}}</td>
+  <td>{{item.jabatan}}</td>
+  <td>{{item.notlp}}</td>
+  <td>{{item.status}}</td>
   <td><button class="btn btn-success" data-toggle="modal" ng-click="edit(item)"data-target="#myModal1"><i class="fa fa-edit"></i></button></td>
   </tr>
   </tbody>

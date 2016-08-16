@@ -21,5 +21,32 @@ app.get("/ambil_dataguru",function(req,res){
     res.json(docs)
   })
 });
-
+app.post("/simpan_dataguru",function(req,res){
+  db.dataguru.insert(req.body,function(err,docs){
+    res.json();
+  })
+})
+app.post("/ubah_dataguru",function(req,res){
+  var id = req.body.id;
+db.dataguru.findAndModify({query:{_id:mongojs.ObjectId(id)},
+update:{$set:req.body},new:true},function(err,doc){
+res.json(doc);
+});
+});
+app.post("/hapus_guru",function(req,res){
+  var id = req.body.id.hapusguru;
+  for(var i = 0;i < id.length;i++){
+    db.dataguru.remove( {_id: mongojs.ObjectId(id[i])},1);
+  }
+  res.json()
+});
+app.post("/nonaktif_guru",function(req,res){
+  var id = req.body.id.hapusguru;
+  for(var i = 0;i < id.length;i++){
+    db.dataguru.findAndModify({query:{_id:mongojs.ObjectId(id[i])},
+    update:{$set:{status:"tidak aktif"}},new:true},function(err,doc){
+    });
+  };
+  res.json();
+});
 http.listen(3000);

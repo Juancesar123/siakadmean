@@ -7,6 +7,9 @@ var mainApp = angular.module("mainApp", ['ngRoute','datatables','checklist-model
 	})  .when('/datamurid', {
       templateUrl:"datamurid",
       controller :"datamurid"
+}) .when('/datakelas', {
+    templateUrl:"datakelas",
+    controller :"datakelas"
 })
  });
  mainApp.factory('socket', ['$rootScope', function($rootScope) {
@@ -113,7 +116,15 @@ mainApp.controller("dataguru",function($http,$scope,DTOptionsBuilder,DTColumnBui
         var jabatan= $scope.jabatan;
         var notlp = $scope.notlp;
         var status = "aktif"
-        $http.post("simpan_dataguru",{nama:nama,alamat:alamat,tempat:tempat,tanggal:tanggal,jabatan:jabatan,notlp:notlp,status:status}).success(function(){
+        $http.post("simpan_dataguru",{
+          nama:nama,
+          alamat:alamat,
+          tempat:tempat,
+          tanggal:tanggal,
+          jabatan:jabatan,
+          notlp:notlp,
+          status:status
+        }).success(function(){
           alert("data sukses di simpan");
           $scope.getdata();
         })
@@ -152,7 +163,16 @@ mainApp.controller("dataguru",function($http,$scope,DTOptionsBuilder,DTColumnBui
         var jabatan= $scope.jabatan;
         var notlp = $scope.notlp;
         var status = "aktif"
-        $http.post("ubah_dataguru",{id:id,nama:nama,alamat:alamat,tempat:tempat,tanggal:tanggal,jabatan:jabatan,notlp:notlp,status:status}).success(function(){
+        $http.post("ubah_dataguru",{
+          id:id,
+          nama:nama,
+          alamat:alamat,
+          tempat:tempat,
+          tanggal:tanggal,
+          jabatan:jabatan,
+          notlp:notlp,
+          status:status
+        }).success(function(){
           alert("data sukses di simpan");
           $scope.getdata();
         })
@@ -170,6 +190,12 @@ mainApp.controller("datamurid",function(FotomuridUploadEdit,FotomuridUpload,$sco
           });
       }
       $scope.getdata();
+      $scope.getkelas=function(){
+        $http.get("ambil_datakelas").success(function(data){
+          $scope.kelas = data;
+        })
+      };
+      $scope.getkelas();
       $scope.tambah=function(){
         var nama = $scope.nama;
         var alamat = $scope.alamat;
@@ -189,16 +215,10 @@ mainApp.controller("datamurid",function(FotomuridUploadEdit,FotomuridUpload,$sco
         $scope.tempat = item.tempat;
         $scope.tanggal = item.tanggal;
         $scope.kelasku = item.kelas;
-        $scope.foto = item.foto;
         $scope.status = item.status;
         $scope.id = item._id;
       }
-      $scope.getkelas=function(){
-        $http.get("ambil_kelas").success(function(){
-          $scope.kelas = data;
-        })
-      };
-      $scope.getkelas();
+
       $scope.actionedit=function(){
         var nama = $scope.nama;
         var alamat = $scope.alamat;
@@ -211,7 +231,23 @@ mainApp.controller("datamurid",function(FotomuridUploadEdit,FotomuridUpload,$sco
         var notlp = $scope.notlp;
         var status = "aktif";
         var uploadUrl = "ubah_datamurid";
+        if(foto==undefined){
+          $http.post("ubah_datamuridnoimage",{
+            id:id,
+            nama:nama,
+            alamat:alamat,
+            tempat:tempat,
+            tanggal:tanggal,
+            kelas:kelas,
+            notlp:notlp,
+            status:status
+          }).success(function(){
+            alert("data sukses di ubah");
+            $scope.getdata();
+          })
+        }else{
         FotomuridUploadEdit.uploadFileToUrl(id,nama,alamat,tempat,tanggal,kelas,notlp,status,foto,uploadUrl);
+      }
       }
       $scope.user={
         hapusmurid:[]
@@ -223,4 +259,52 @@ mainApp.controller("datamurid",function(FotomuridUploadEdit,FotomuridUpload,$sco
           $scope.getdata();
         })
       }
+      $scope.nonaktif=function(){
+        var id = $scope.user;
+        $http.post("nonaktif_murid",{id:id}).success(function(){
+          $scope.getdata();
+        })
+      };
 })
+mainApp.controller("datakelas",function($scope,$http,DTOptionsBuilder,DTColumnBuilder){
+  $scope.dtOptions = DTOptionsBuilder.newOptions()
+          .withDisplayLength(5)
+          .withOption('bLengthChange', false)
+          .withOption('autoWidth', false)
+          .withOption('scrollX', false);
+          $scope.getdata = function(){
+          $http.get("ambil_datakelas").success(function(data){
+            $scope.datakelas= data;
+          });
+      }
+      $scope.getdata();
+      $scope.tambah=function(){
+        var kelas = $scope.kelas;
+        $http.post("tambah_kelas",{kelas:kelas}).success(function(){
+          alert("data sukses di input");
+          $scope.getdata();
+        });
+      };
+      $scope.edit=function(item){
+        $scope.kelas = item.kelas;
+        $scope.id = item._id;
+      };
+      $scope.actionedit=function(){
+        var kelas = $scope.kelas;
+        var id = $scope.id;
+        $http.post("ubah_datakelas",{kelas:kelas,id:id}).success(function(){
+          alert("data sukses di ubah");
+          $scope.getdata();
+        })
+      };
+      $scope.user={
+        hapuskelas:[]
+      }
+      $scope.hapus=function(){
+        var id = $scope.user;
+        $http.post("hapus_kelas",{id:id}).success(function(){
+          alert("data sukses di hapus");
+          $scope.getdata();
+        })
+      }
+    })

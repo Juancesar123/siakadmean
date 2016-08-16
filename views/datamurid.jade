@@ -1,0 +1,122 @@
+html
+  head
+  body
+    section.content-header
+      h1
+        | Data Murid
+        small lihat Data Murid
+      ol.breadcrumb
+        li.active
+          a(href='#')
+            i.fa.fa-database
+            |  Data Murid
+    .box-header
+      button.btn.btn-primary(data-toggle='modal', data-target='#myModal')
+        i.fa.fa-plus
+        |  Tambah Murid
+      button.btn.btn-danger(ng-click='hapus()')
+        i.fa.fa-trash
+        |  Hapus Murid
+      button.btn.btn-danger(ng-click='nonaktif()')
+        i.fa.fa-trash
+        |  Nonaktifkan Murid
+    .box-body
+      #myModal.modal.fade(role='dialog')
+        .modal-dialog
+          // Modal content
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Input data murid
+            .modal-body
+              .form-group
+                label  Nama Murid
+                input.form-control(type='text', ng-model='nama')
+              .form-group
+                label  Kelas
+                select.form-control(ng-model='kelasku')
+                  option(ng-repeat='item in kelas', value='{{item.kelas}}') {{item.kelas}}
+              .form-group
+                label  Tempat Lahir
+                input.form-control(type='text', ng-model='tempat')
+              .form-group
+                label Tanggal Lahir
+                input.form-control(type='text', ng-model='tanggal')
+              .form-group
+                label Alamat
+                textarea.form-control(ng-model='alamat')
+              .form-group
+                label Nomor Telpon
+                input.form-control(type='text', ng-model='notlp')
+              .form-group
+                label Foto
+                input.form-control(type='file', file-model='foto')
+            .modal-footer
+              button.btn.btn-primary(ng-click='tambah()')
+                i.fa.fa-send
+                |  Submit
+              button.btn.btn-default(type='button', data-dismiss='modal') Close
+      #myModal1.modal.fade(role='dialog')
+        .modal-dialog
+          // Modal content
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Ubah Data Murid
+            .modal-body
+              .form-group
+                label  Nama Murid
+                input.form-control(type='text', ng-model='nama')
+              .form-group
+                label  Kelas
+                select.form-control(ng-model='kelasku')
+                  option(ng-repeat='item in kelas', value='{{item.kelas}}') {{item.kelas}}
+              .form-group
+                label  Tempat Lahir
+                input.form-control(type='text', ng-model='tempat')
+              .form-group
+                label Tanggal Lahir
+                input.form-control(type='text', ng-model='tanggal')
+              .form-group
+                label Alamat
+                textarea.form-control(ng-model='alamat')
+              .form-group
+                label Nomor Telpon
+                input.form-control(type='text', ng-model='notlp')
+              .form-group
+                label Foto
+                input.form-control(type='file', file-model='foto')
+            .modal-footer
+              button.btn.btn-success(ng-click='actionedit()')
+                i.fa.fa-send
+                |  Submit
+              button.btn.btn-default(type='button', data-dismiss='modal') Close
+      table.table.table-bordered.table-striped(datatable='ng', dt-columns='dtColumns', dt-options='dtOptions')
+        thead
+          th
+            input(type='checkbox', ng-click='checkall()')
+          th Nama
+          th Kelas
+          th Tempat Lahir
+          th Tanggal Lahir
+          th alamat
+          th Nomor Telpon
+          th Status
+          th Foto
+          th Action
+        tbody
+          tr(ng-repeat='item in datamurid')
+            td
+              input(type='checkbox', checklist-model='user.hapusmurid', checklist-value='item', role='')
+            td {{item.nama}}
+            td {{item.kelas}}
+            td {{item.tempat}}
+            td {{item.tanggal}}
+            td {{item.alamat}}
+            td {{item.notlp}}
+            td {{item.status}}
+            td
+              img(src='{{item.foto}}', width='100', height='100')
+            td
+              button.btn.btn-success(data-toggle='modal', ng-click='edit(item)', data-target='#myModal1')
+                i.fa.fa-edit

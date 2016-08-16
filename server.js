@@ -4,7 +4,7 @@ var http = require('http').Server(app);
 var bodyParser=require("body-parser");
 var mongojs = require("mongojs");
 var fs= require("fs");
-var db = mongojs("siakad",["dataguru","datamurid"]);
+var db = mongojs("siakad",["dataguru","datamurid","datakelas"]);
 var multer = require("multer");
 app.set('view engine', 'jade');
 app.set('view engine', 'ejs');
@@ -23,12 +23,15 @@ app.get("/dataguru",function(req,res){
   res.render("dataguru.jade");
 });
 app.get("/datamurid",function(req,res){
-  res.render("datamurid.ejs");
+  res.render("datamurid.jade");
 });
 app.get("/ambil_dataguru",function(req,res){
   db.dataguru.find(function(err,docs){
     res.json(docs)
   })
+});
+app.get("/datakelas",function(req,res){
+  res.render("datakelas.ejs");
 });
 app.post("/simpan_dataguru",function(req,res){
   db.dataguru.insert(req.body,function(err,docs){
@@ -79,7 +82,7 @@ var upload = multer({storage: storage}).single('foto');
       nama:request.body.nama,
       kelas:request.body.kelas,
       alamat:request.body.alamat,
-      notlp:request.body.alamat,
+      notlp:request.body.notlp,
       foto:"gambarmurid/"+request.file.originalname,
       tempat:request.body.tempat,
       tanggal:request.body.tanggal,
@@ -132,11 +135,50 @@ app.post("/ubah_datamurid",function(request,response){
 });
 app.post("/hapus_murid",function(req,res){
   var id = req.body.id.hapusmurid;
-  console.log(id)
   for(var i = 0;i < id.length;i++){
     fs.unlink(id[i].foto);
     db.datamurid.remove( {_id: mongojs.ObjectId(id[i]._id)},1);
   }
   res.json();
 });
+app.post("/nonaktif_murid",function(req,res){
+  var id = req.body.id.hapusmurid;
+  for(var i = 0;i < id.length;i++){
+    db.datamurid.findAndModify({query:{_id:mongojs.ObjectId(id[i]._id)},
+    update:{$set:{status:"tidak aktif"}},new:true},function(err,doc){
+    });
+  }
+  res.json();
+});
+app.post("/ubah_datamuridnoimage",function(req,res){
+  var id = req.body.id;
+db.datamurid.findAndModify({query:{_id:mongojs.ObjectId(id)},
+update:{$set:req.body},new:true},function(err,doc){
+res.json(doc);
+});
+});
+app.get("/ambil_datakelas",function(req,res){
+  db.datakelas.find(function(err,docs){
+    res.json(docs);
+  });
+});
+app.post("/tambah_kelas",function(req,res){
+  db.datakelas.insert(req.body,function(err,docs){
+    res.json()
+  });
+});
+  app.post("/ubah_datakelas",function(req,res){
+    var id = req.body.id;
+    db.datakelas.findAndModify({query:{_id:mongojs.ObjectId(id)},
+    update:{$set:req.body},new:true},function(err,doc){
+    res.json(doc);
+    });
+  });
+  app.post("/hapus_kelas",function(req,res){
+    var id = req.body.id.hapuskelas;
+    for(var i = 0;i < id.length;i++){
+      db.datakelas.remove( {_id: mongojs.ObjectId(id[i])},1);
+    }
+    res.json();
+  })
 http.listen(3000);

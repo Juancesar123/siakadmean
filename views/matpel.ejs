@@ -4,31 +4,30 @@
 <body>
   <section class="content-header">
     <h1>
-      Data Kelas
-      <small>lihat Data kelas</small>
+      Data Mata Pelajaran
+      <small>lihat Data Mata Pelajaran</small>
     </h1>
     <ol class="breadcrumb">
-      <li class = "active"><a href="#"><i class="fa fa-database"></i> Data Kelas</a></li>
+      <li class = "active"><a href="#"><i class="fa fa-database"></i> Data Mata pelajaran</a></li>
     </ol>
   </section>
   <div class="box-header">
-    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Tambah Kelas</button>
-    <button class="btn btn-danger" ng-click="hapus()"><i class="fa fa-trash"></i> Hapus Kelas</button>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i> Tambah Matpel</button>
+    <button class="btn btn-danger" ng-click="hapus()"><i class="fa fa-trash"></i> Hapus Matpel</button>
   </div>
   <div class ="box-body">
     <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Input data kelas</h4>
+          <h4 class="modal-title">Input data Matpel</h4>
         </div>
         <div class="modal-body">
 <div class="form-group">
-<label>kelas</label>
-<input type="text" class="form-control" ng-model="kelas">
+<label>Mata Pelajaran</label>
+<input type="text" class="form-control" ng-model="matpel">
 </div>
       </div>
         <div class="modal-footer">
@@ -46,12 +45,12 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal">&times;</button>
-      <h4 class="modal-title">Ubah Data kelas</h4>
+      <h4 class="modal-title">Ubah Data Matpel</h4>
     </div>
     <div class="modal-body">
 <div class="form-group">
-<label>kelas</label>
-<input type="text" class="form-control" ng-model="kelas">
+<label>Mata Pelajaran</label>
+<input type="text" class="form-control" ng-model="matpel">
 </div>
   </div>
     <div class="modal-footer">
@@ -65,13 +64,13 @@
   <table datatable="ng" dt-columns="dtColumns"dt-options="dtOptions"class="table table-bordered table-striped">
   <thead>
   <th><input type="checkbox" ng-click="checkall()"></th>
-  <th>kelas</th>
+  <th>Mata Pelajaran</th>
   <th>Action</th>
 </thead>
   <tbody>
-  <tr ng-repeat="item in datakelas">
-  <td> <input type="checkbox"  checklist-model="user.hapuskelas" checklist-value="item._id" role></td>
-  <td>{{item.kelas}}</td>
+  <tr ng-repeat="item in matapel">
+  <td> <input type="checkbox"  checklist-model="user.hapusmatpel" checklist-value="item._id" role></td>
+  <td>{{item.matpel}}</td>
   <td><button class="btn btn-success" data-toggle="modal" ng-click="edit(item)"data-target="#myModal1"><i class="fa fa-edit"></i></button></td>
   </tr>
   </tbody>

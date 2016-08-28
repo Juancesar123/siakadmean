@@ -1,4 +1,4 @@
-var mainApp = angular.module("mainApp", ['ngRoute','datatables','checklist-model',"ngResource"]);
+var mainApp = angular.module("mainApp", ["ngMaterial",'ngRoute','datatables','checklist-model',"ngResource"]);
  mainApp.config(function($routeProvider) {
     $routeProvider
       .when('/dataguru', {
@@ -13,6 +13,21 @@ var mainApp = angular.module("mainApp", ['ngRoute','datatables','checklist-model
 }).when('/user', {
     templateUrl:"user",
     controller :"user"
+}).when('/datamatapelajaran', {
+    templateUrl:"datamatpel",
+    controller :"datamatpel"
+}).when('/jadwalpel', {
+    templateUrl:"jadwalpel",
+    controller :"jadwalpel"
+}).when('/nilai', {
+    templateUrl:"nilai",
+    controller :"nilai"
+}).when('/absensiguru', {
+    templateUrl:"absensiguru",
+    controller :"absensiguru"
+}).when('/absensimurid', {
+    templateUrl:"absensimurid",
+    controller :"absensimurid"
 })
  });
  mainApp.factory('socket', ['$rootScope', function($rootScope) {
@@ -421,3 +436,228 @@ mainApp.controller("datakelas",function($scope,$http,DTOptionsBuilder,DTColumnBu
             });
           };
         })
+        mainApp.controller("datamatpel",function($scope,$http,DTOptionsBuilder,DTColumnBuilder){
+          $scope.dtOptions = DTOptionsBuilder.newOptions()
+                  .withDisplayLength(5)
+                  .withOption('bLengthChange', false)
+                  .withOption('autoWidth', false)
+                  .withOption('scrollX', false);
+                  $scope.getdata = function(){
+                  $http.get("ambil_matpel").success(function(data){
+                    $scope.matapel= data;
+                  });
+              }
+              $scope.getdata();
+              $scope.tambah=function(){
+                var matpel=$scope.matpel;
+                $http.post("tambah_matpel",{matpel:matpel}).success(function(){
+                  alert("data sukses di input");
+                  $scope.getdata();
+                })
+              }
+              $scope.edit=function(item){
+                $scope.matpel = item.matpel;
+                $scope.id = item._id
+              }
+              $scope.actionedit=function(){
+                var id = $scope.id ;
+                var matpel = $scope.matpel;
+                $http.post("ubah_datamatpel",{matpel:matpel,id:id}).success(function(){
+                  alert("data sukses di ubah");
+                  $scope.getdata();
+                })
+              }
+              $scope.user={
+                hapusmatpel:[]
+              };
+              $scope.hapus=function(){
+                var id = $scope.user;
+                $http.post("hapus_matpel",{id:id}).success(function(){
+                  alert("data sukses dihapus");
+                  $scope.getdata();
+                })
+              }
+            })
+            mainApp.controller("jadwalpel",function($scope,$http,DTOptionsBuilder,DTColumnBuilder){
+              $scope.dtOptions = DTOptionsBuilder.newOptions()
+                      .withDisplayLength(5)
+                      .withOption('bLengthChange', false)
+                      .withOption('autoWidth', false)
+                      .withOption('scrollX', false);
+                      $scope.getdata = function(){
+                      $http.get("ambil_jadwalmatpel").success(function(data){
+                        $scope.jadwalmatpel= data;
+                      });
+                  }
+                  $scope.getdata();
+                  $scope.getmurid = function(){
+                    $http.get("ambil_datamurid").success(function(data){
+                      $scope.murid = data
+                    })
+                  }
+                  $scope.getmurid();
+                  $scope.getdatakelas = function(){
+                    $http.get("ambil_datakelas").success(function(data){
+                      $scope.kelas= data;
+                    })
+                  }
+                  $scope.getdatakelas();
+                  $scope.getmatpel=function(){
+                    $http.get("ambil_matpel").success(function(data){
+                      $scope.matpel = data;
+                    })
+                  }
+                  $scope.getmatpel();
+                  $scope.tambah = function(){
+                    var hari = $scope.hari;
+                    var tanggal = $scope.tanggal;
+                    var kelas = $scope.kelasku;
+                    var nama = $scope.nama;
+                    var matpel = $scope.matpelku;
+                    $http.post("tambah_jadwalmatpel",{hari:hari,tanggal:tanggal,kelas:kelas,nama:nama,matpel:matpel}).success(function(){
+                      alert("data sukses di input");
+                      $scope.getdata();
+                    })
+                  }
+                  $scope.edit=function(item){
+                    $scope.hari = item.hari;
+                    $scope.tanggal = item.tanggal;
+                    $scope.kelasku = item.kelas;
+                    $scope.nama = item.nama;
+                    $scope.id = item._id;
+                    $scope.matpelku = item.matpel;
+                  }
+                  $scope.actionedit=function(){
+                    var hari = $scope.hari;
+                    var tanggal = $scope.tanggal;
+                    var kelas = $scope.kelasku;
+                    var nama = $scope.nama;
+                    var matpel = $scope.matpelku;
+                    var id = $scope.id;
+                    $http.post("ubah_jadwalmatpel",{id:id,hari:hari,tanggal:tanggal,kelas:kelas,nama:nama,matpel:matpel}).success(function(){
+                      alert("data sukses di ubah");
+                      $scope.getdata();
+                    })
+                  }
+                  $scope.user={
+                    hapusjadwalmatpel:[]
+                  }
+                  $scope.hapus = function(){
+                    var id = $scope.user;
+                    $http.post("hapus_jadwalmatpel",{id:id}).success(function(){
+                      alert("data sudah di hapus");
+                      $scope.getdata();
+                    })
+                  }
+                });
+                mainApp.controller("nilai",function($scope,$http,DTOptionsBuilder,DTColumnBuilder){
+                  $scope.dtOptions = DTOptionsBuilder.newOptions()
+                          .withDisplayLength(5)
+                          .withOption('bLengthChange', false)
+                          .withOption('autoWidth', false)
+                          .withOption('scrollX', false);
+                          $scope.getdata = function(){
+                          $http.get("ambil_datanilai").success(function(data){
+                            $scope.nilai= data;
+                          });
+                      }
+                      $scope.getdata()
+                      $scope.getmurid=function(){
+                        $http.get("ambil_datamurid").success(function(data){
+                          $scope.murid = data;
+                        })
+                      }
+                      $scope.getmurid();
+                      $scope.getkelas=function(){
+                      $http.get("ambil_datakelas").success(function(data){
+                        $scope.kelas = data;
+                      })
+                      }
+                      $scope.getkelas();
+                      $scope.tambah = function(){
+                        var nama = $scope.nama;
+                        var kelas = $scope.kelasku;
+                        var uts = $scope.uts;
+                        var uas = $scope.uas;
+                        var jumlah = $scope.total;
+                        $http.post("tambah_datanilai",{nama:nama,kelas:kelas,uts:uts,uas:uas,jumlahnilai:jumlah}).success(function(){
+                          alert("nilai sudah di input");
+                          $scope.getdata();
+                        })
+                      }
+                      $scope.edit=function(item){
+                        $scope.nama = item.nama;
+                        $scope.kelasku = item.kelas;
+                        $scope.uts = item.uts;
+                        $scope.uas = item. uas;
+                        $scope.total = item.jumlahnilai;
+                        $scope.id = item._id;
+                      }
+                      $scope.actionedit=function(){
+                        var nama = $scope.nama;
+                        var kelas = $scope.kelasku;
+                        var uts = $scope.uts;
+                        var uas = $scope.uas;
+                        var jumlah = $scope.total;
+                        var id = $scope.id;
+                        $http.post("ubah_datanilai",{id:id,nama:nama,kelas:kelas,uts:uts,uas:uas,jumlahnilai:jumlah}).success(function(){
+                          alert("nilai sudah di ubah");
+                          $scope.getdata();
+                        })
+                      }
+                      $scope.user = {
+                        hapusnilai:[]
+                      }
+                      $scope.hapus=function(){
+                        var id = $scope.user;
+                        $http.post("hapus_nilai",{id:id}).success(function(){
+                          alert("data sukses di hapus")
+                          $scope.getdata();
+                        })
+                      }
+                })
+mainApp.controller("absensiguru",function($scope,$http,DTOptionsBuilder,DTColumnBuilder){
+  $scope.dtOptions = DTOptionsBuilder.newOptions()
+          .withDisplayLength(5)
+          .withOption('bLengthChange', false)
+          .withOption('autoWidth', false)
+          .withOption('scrollX', false);
+          $scope.getdata = function(){
+          $http.get("ambil_absensiguru").success(function(data){
+            $scope.absensiguru= data;
+          });
+      }
+      $scope.getdata();
+      $scope.tambah=function(){
+        var nama = $scope.nama;
+        var keterangan = $scope.ket;
+        $http.post("/tambah_absensiguru",{nama:nama,keterangan:keterangan}).success(function(){
+          alert("data sukses di input");
+          $scope.getdata();
+        });
+      };
+      $scope.edit=function(item){
+        $scope.nama = item.nama;
+        $scope.ket = item.keterangan;
+        $scope.id = item._id;
+      }
+      $scope.actionedit=function(){
+        var nama = $scope.nama;
+        var keterangan = $scope.ket;
+        var id = $scope.id;
+        $http.post("/ubah_absensiguru",{id:id,nama:nama,keterangan:keterangan}).success(function(){
+          alert("data sukses di ubah");
+          $scope.getdata();
+        });
+      }
+      $scope.user={
+        hapusabsensiguru:[]
+      }
+      $scope.hapus=function(){
+        var id = $scope.user;
+        $http.post("hapus_absensiguru",{id:id}).success(function(){
+          alert("data sukses di happus");
+          $scope.getdata();
+        })
+      }
+});

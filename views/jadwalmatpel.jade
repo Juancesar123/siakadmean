@@ -1,0 +1,110 @@
+html
+  head
+  body
+    section.content-header
+      h1
+        | Jadwal Mata Pelajaran
+        small lihat Data kelas
+      ol.breadcrumb
+        li.active
+          a(href='#')
+            i.fa.fa-database
+            |  Data Kelas
+    .box-header
+      button.btn.btn-primary(data-toggle='modal', data-target='#myModal')
+        i.fa.fa-plus
+        |  Tambah Jadwal
+      button.btn.btn-danger(ng-click='hapus()')
+        i.fa.fa-trash
+        |  Hapus Jadwal
+    .box-body
+      #myModal.modal.fade(role='dialog')
+        .modal-dialog
+          // Modal content
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Input data Matpel
+            .modal-body
+              .form-group
+                label hari
+                input.form-control(type='text', ng-model='hari')
+              .form-group
+                label tanggal
+                input.form-control(type='date', ng-model='tanggal')
+              .form-group
+                label Nama Siswa
+                select.form-control(ng-model='nama')
+                  option(ng-repeat='item in murid', value='{{item.nama}}')
+                    | {{item.nama}}
+              .form-group
+                label kelas
+                select.form-control(ng-model='kelasku')
+                  option(ng-repeat='item in kelas', value='{{item.kelas}}')
+                    | {{item.kelas}}
+              .form-group
+                label Matpel
+                select.form-control(ng-model='matpelku')
+                  option(ng-repeat='item in matpel', value='{{item.matpel}}')
+                    | {{item.matpel}}
+            .modal-footer
+              button.btn.btn-primary(ng-click='tambah()')
+                i.fa.fa-send
+                |  Submit
+              button.btn.btn-default(type='button', data-dismiss='modal') Close
+      #myModal1.modal.fade(role='dialog')
+        .modal-dialog
+          // Modal content
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Ubah Data jadwal matpel
+            .modal-body
+              .form-group
+                label hari
+                input.form-control(type='text', ng-model='hari')
+              .form-group
+                label tanggal
+                input.form-control(type='date', ng-model='tanggal')
+              .form-group
+                label Nama Siswa
+                select.form-control(ng-model='nama')
+                  option(ng-repeat='item in murid', value='{{item.nama}}')
+                    | {{item.nama}}
+              .form-group
+                label kelas
+                select.form-control(ng-model='kelasku')
+                  option(ng-repeat='item in kelas', value='{{item.kelas}}')
+                    | {{item.kelas}}
+              .form-group
+                label Matpel
+                select.form-control(ng-model='matpelku')
+                  option(ng-repeat='item in matpel', value='{{item.matpel}}')
+                    | {{item.matpel}}
+            .modal-footer
+              button.btn.btn-success(ng-click='actionedit()')
+                i.fa.fa-send
+                |  Submit
+              button.btn.btn-default(type='button', data-dismiss='modal') Close
+      table.table.table-bordered.table-striped(datatable='ng', dt-columns='dtColumns', dt-options='dtOptions')
+        thead
+          th
+            input(type='checkbox', ng-click='checkall()')
+          th Hari
+          th Tanggal
+          th Nama
+          th Kelas
+          th Matpel
+          th Action
+        tbody
+          tr(ng-repeat='item in jadwalmatpel')
+            td
+              input(type='checkbox', checklist-model='user.hapusjadwalmatpel', checklist-value='item._id', role='')
+            td {{item.hari}}
+            td {{item.tanggal}}
+            td {{item.nama}}
+            td {{item.kelas}}
+            td {{item.matpel}}
+            td
+              button.btn.btn-success(data-toggle='modal', ng-click='edit(item)', data-target='#myModal1')
+                i.fa.fa-edit
